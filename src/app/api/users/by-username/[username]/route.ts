@@ -6,7 +6,7 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "supersecr
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { username: string } }
+  context: { params: Promise<{ username: string }> }
 ) {
   try {
     // 1. Get token from header
@@ -25,8 +25,9 @@ export async function GET(
     }
 
     // 3. Find user by username
+    const { username } = await context.params;
     const user = await prisma.user.findUnique({
-      where: { username: params.username },
+      where: { username },
       select: {
         id: true,
         username: true,

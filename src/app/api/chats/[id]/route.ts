@@ -22,13 +22,9 @@ async function getUserId(req: NextRequest): Promise<string | null> {
   }
 }
 
-interface ChatContext {
-  params: { id: string } | Promise<{ id: string }>;
-}
-
 export async function GET(
   req: NextRequest,
-  context: ChatContext
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const userId = await getUserId(req);
@@ -36,9 +32,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Safely resolve params, whether it's a Promise or not
-    const params = await Promise.resolve(context.params);
-    const chatId = params.id;
+    const { id: chatId } = await context.params;
 
     // Get the chat and verify user is a member
     const chat = await prisma.chat.findUnique({
