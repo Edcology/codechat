@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /api/*
+Disallow: /chat/*
+
+# Prevent access to authentication pages for crawlers
+Disallow: /login
+Disallow: /signup
+Disallow: /verify/*
+
+# Allow chat list page to be indexed
+Allow: /chat$
+
+Sitemap: https://your-domain.com/sitemap.xml
