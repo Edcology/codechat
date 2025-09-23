@@ -24,7 +24,7 @@ async function getUserId(req: NextRequest): Promise<string | null> {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const userId = await getUserId(req);
@@ -32,7 +32,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const chatId = params.id;
+    const { id: chatId } = await context.params;
     const { content } = await req.json();
 
     if (!content || typeof content !== "string" || !content.trim()) {
