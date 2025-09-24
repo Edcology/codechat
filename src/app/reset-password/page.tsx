@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token");
@@ -128,5 +128,18 @@ export default function ResetPasswordPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="font-sans flex items-center justify-center min-h-screen p-2 pb-2 sm:p-2">
+        <ToastContainer />
+        <div className="animate-pulse text-gray-500">Loading...</div>
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
