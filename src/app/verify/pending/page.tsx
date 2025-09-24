@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useSearchParams } from 'next/navigation'
 
-const Page = () => {
+function PendingContent() {
   const [isResending, setIsResending] = useState(false)
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
@@ -90,6 +90,14 @@ const Page = () => {
         </Link>
       </main>
     </div>
+  )
+}
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="font-sans flex items-center justify-center min-h-screen">Loading...</div>}>
+      <PendingContent />
+    </Suspense>
   )
 }
 
