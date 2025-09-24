@@ -27,7 +27,7 @@ export function useChat(chatId: string) {
     }
 
     // Connect to WebSocket server
-    socketRef.current = io(process.env.NEXT_PUBLIC_EXPRESS_SERVER, {
+    socketRef.current = io('https://chat-server-745c.onrender.com/', {
       auth: { token },
     });
 
