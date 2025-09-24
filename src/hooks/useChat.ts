@@ -27,7 +27,7 @@ export function useChat(chatId: string) {
     }
 
     // Connect to WebSocket server
-    socketRef.current = io('http://localhost:3001', {
+    socketRef.current = io(process.env.NEXT_PUBLIC_EXPRESS_URL, {
       auth: { token },
     });
 
